@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3DMazeGeneration", "3DMazeGeneration\3DMazeGeneration.csproj", "{01E71CCD-DBBC-4386-9964-4FAA8E9915D5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{01E71CCD-DBBC-4386-9964-4FAA8E9915D5}.Debug|x86.ActiveCfg = Debug|x86
+		{01E71CCD-DBBC-4386-9964-4FAA8E9915D5}.Debug|x86.Build.0 = Debug|x86
+		{01E71CCD-DBBC-4386-9964-4FAA8E9915D5}.Release|x86.ActiveCfg = Release|x86
+		{01E71CCD-DBBC-4386-9964-4FAA8E9915D5}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
