@@ -39,7 +39,7 @@ namespace _3DMazeGeneration
             GetMoves();
             WriteMaze();
             Move();
-            Console.Read();
+            Console.Clear();
         }
 
         void Win()
