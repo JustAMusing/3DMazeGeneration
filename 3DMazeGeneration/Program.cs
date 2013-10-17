@@ -14,6 +14,7 @@ namespace _3DMazeGeneration
         {
             do
             {
+                Console.Clear();
                 Start();
             } while (Reset());
           
