@@ -248,11 +248,11 @@ namespace _3DMazeGeneration
                                     {
                                         if (boundVals[boundY1(_y)][boundX2(_x)])
                                         {
-                                            layout[_z][LY_wallY(_y)][RX_wallX(_x)] = '#';
+                                            layout[_z][LY_wallY(_y) + modY][RX_wallX(_x) + modX] = '#';
                                         }
                                         else
                                         {
-                                            layout[_z][LY_wallY(_y)][RX_wallX(_x)] = ' ';
+                                            layout[_z][LY_wallY(_y) + modY][RX_wallX(_x) + modX] = ' ';
                                         }
                                     }
                                 }

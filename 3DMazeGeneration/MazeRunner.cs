@@ -123,7 +123,7 @@ namespace _3DMazeGeneration
             //Write controls
             Console.WriteLine("Controls:");
             Console.WriteLine();
-            Console.WriteLine("  [W]");
+            Console.WriteLine("   [W]");
             Console.WriteLine("[A][S][D]");
             Console.WriteLine();
             if (d)
