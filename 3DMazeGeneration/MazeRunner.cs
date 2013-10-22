@@ -7,10 +7,15 @@ namespace _3DMazeGeneration
 {
     class MazeRunner
     {
-        int x, y, z;
-        int xMod = 10;
-        int yMod = 4;
-        int[] playerCoor, endCoor;
+        readonly int x, y, z;
+        int xMod = 20;
+        int yMod = 20;
+        internal readonly int cellWidth;
+        internal readonly int cellHeight;
+        internal readonly int wallWidth;
+        internal readonly int wallHeight;
+        int[] playerCoor;
+        int [][] endCoor;
         char[][][] maze;
         bool u, d, l, r, f, b;
 
@@ -20,31 +25,38 @@ namespace _3DMazeGeneration
             x = _m.x;
             y = _m.y;
             z = _m.z;
-            playerCoor = _m.startCoor;
-            endCoor = _m.endCoor;
+            cellWidth = _m.cellWidth;
+            cellHeight = _m.cellHeight;
+            wallWidth = _m.wallWidth;
+            wallHeight = _m.wallHeight;
+            playerCoor = _m.playerCoor;
+            endCoor = _m.endCoorRange;
         }
 
         public void Run()
         {
-            Console.Clear();
+            Draw();
             while (!HasWon())
             {
-                Play();
+                if (Console.KeyAvailable)
+                {
+                    Move();
+                    Draw();
+                }
             }
             Win();
         }
 
-        void Play()
+        void Draw()
         {
-            GetMoves();
-            WriteMaze();
-            Move();
             Console.Clear();
+            WriteMaze();
+            GetMoves();
         }
 
         void Win()
         {
-            WriteMaze();
+            Draw();
             Console.WriteLine("Player has completed maze!");
             Console.WriteLine("Press [enter] to continue.");
             Console.ReadLine();
@@ -53,105 +65,134 @@ namespace _3DMazeGeneration
 
         void GetMoves()
         {
-            //Wall to left of player: (z, ((4*y)+2), (4*x))
-            //Wall to right of player: (z, ((4*y)+2), (4*(x+1)))
-            //Wall in front of player: (z, (4*(y+1)), ((4*x)+2))
-            //Wall in back of player: (z, (4*y), ((4*x)+2))
-            //Lower: (z, ((4*y)+2), ((4*x)+1))
-            //Upper: (z, ((4*y)+2), ((4*x)+3))
+            //Wall to left of player: (z, (((cellHeight+wallHeight)*y)+((cellHeight+wallHeight)/2)), ((cellWidth+wallWidth)*x))
+            //Wall to right of player: (z, (((cellHeight+wallHeight)*y)+((cellHeight+wallHeight)/2)), ((cellWidth+wallWidth)*(x+1)))
+            //Wall in front of player: (z, ((cellHeight+wallHeight)*(y+1)), (((cellWidth+wallWidth)*x)+wallWidth))
+            //Wall in back of player: (z, ((cellHeight+wallHeight)*y), (((cellWidth+wallWidth)*x)+wallWidth))
+            //Lower: (z, (((cellHeight+wallHeight)*y)+((cellHeight+wallHeight)/2)), (((cellWidth+wallWidth)*x)+wallWidth-1))
+            //Upper: (z, (((cellHeight+wallHeight)*y)+((cellHeight+wallHeight)/2)), (((cellWidth+wallWidth)*(x+1))+wallWidth+1))
 
-            l = (maze[playerCoor[0]][((4 * playerCoor[1]) + 2)][(4 * playerCoor[2])] == ' ') && (playerCoor[2] != (0));
-            r = (maze[playerCoor[0]][((4 * playerCoor[1]) + 2)][(4 * (playerCoor[2] + 1))] == ' ') && (playerCoor[2] != (x - 1));
-            f = (maze[playerCoor[0]][(4 * (playerCoor[1] + 1))][((4 * playerCoor[2]) + 2)] == ' ') && (playerCoor[1] != (y - 1));
-            b = (maze[playerCoor[0]][(4 * playerCoor[1])][((4 * playerCoor[2]) + 2)] == ' ') && (playerCoor[1] != 0);
-            d = (maze[playerCoor[0]][((4 * playerCoor[1]) + 2)][((4 * playerCoor[2]) + 1)] == '-');
-            u = (maze[playerCoor[0]][((4 * playerCoor[1]) + 2)][((4 * playerCoor[2]) + 3)] == '+');
+            //Get left
+            if ((playerCoor[0] >= 0) && (playerCoor[0] < maze.Length) && (playerCoor[1] >= 0) && (playerCoor[1] < maze[0].Length) && ((playerCoor[2] - 1) >= 0) && ((playerCoor[2] - 1) < maze[0][0].Length))
+            {
+                l = (maze[playerCoor[0]][playerCoor[1]][playerCoor[2] - 1] != '#');
+            }
+            else
+            {
+                l = false;
+            }
+            //Get right
+            if ((playerCoor[0] >= 0) && (playerCoor[0] < maze.Length) && (playerCoor[1] >= 0) && (playerCoor[1] < maze[0].Length) && ((playerCoor[2] + 1) >= 0) && ((playerCoor[2] + 1) < maze[0][0].Length))
+            {
+                r = (maze[playerCoor[0]][playerCoor[1]][playerCoor[2] + 1] != '#');
+            }
+            else
+            {
+                r = false;
+            }
+            //Get back
+            if ((playerCoor[0] >= 0) && (playerCoor[0] < maze.Length) && ((playerCoor[1] - 1) >= 0) && ((playerCoor[1] - 1) < maze[0].Length) && (playerCoor[2] >= 0) && (playerCoor[2] < maze[0][0].Length))
+            {
+                b = (maze[playerCoor[0]][playerCoor[1] - 1][playerCoor[2]] != '#');
+            }
+            else
+            {
+                b = false;
+            }
+            //Get forward
+            if ((playerCoor[0] >= 0) && (playerCoor[0] < maze.Length) && ((playerCoor[1] + 1) >= 0) && ((playerCoor[1] + 1) < maze[0].Length) && (playerCoor[2] >= 0) && (playerCoor[2] < maze[0][0].Length))
+            {
+                f = (maze[playerCoor[0]][playerCoor[1] + 1][playerCoor[2]] != '#');
+            }
+            else
+            {
+                f = false;
+            }
+            //Get up and down
+            if ((playerCoor[0] >= 0) && (playerCoor[0] < maze.Length) && (playerCoor[1] >= 0) && (playerCoor[1] < maze[0].Length) && (playerCoor[2] >= 0) && (playerCoor[2] < maze[0][0].Length))
+            {
+                u = (maze[playerCoor[0]][playerCoor[1]][playerCoor[2]] == '+');
+                d = (maze[playerCoor[0]][playerCoor[1]][playerCoor[2]] == '-');
+            }
+            else
+            {
+                u = false;
+                d = false;
+            }
+
+            //Write controls
+            Console.WriteLine("Controls:");
+            Console.WriteLine();
+            Console.WriteLine("  [W]");
+            Console.WriteLine("[A][S][D]");
+            Console.WriteLine();
+            if (d)
+            {
+                Console.WriteLine("[SPACE] to Descend");
+            }
+            if (u)
+            {
+                Console.WriteLine("[SPACE] to Ascend");
+            }
         }
 
         void Move()
         {
-            char input = 'z';
-            List<char> possMoves = new List<char>();
+            ConsoleKey move = Console.ReadKey(false).Key;
 
-            Console.WriteLine("Player can...");
-            if (f)
-            {
-                Console.WriteLine(" Move forward (f)");
-                possMoves.Add('f');
-            }
-            if (b)
-            {
-                Console.WriteLine(" Move back (b)");
-                possMoves.Add('b');
-            }
-            if (l)
-            {
-                Console.WriteLine(" Move left (l)");
-                possMoves.Add('l');
-            }
-            if (r)
-            {
-                Console.WriteLine(" Move right (r)");
-                possMoves.Add('r');
-            }
-            if (u)
-            {
-                Console.WriteLine(" Ascend (a)");
-                possMoves.Add('a');
-            }
-            if (d)
-            {
-                Console.WriteLine(" Descend (d)");
-                possMoves.Add('d');
-            }
-
-            while (!possMoves.Contains(input))
-            {
-                input = Console.ReadKey().KeyChar;
-            }
-
-            if (input == 'f')
-            {
-                playerCoor[1]++;
-            }
-            if (input == 'b')
+            if ((move == ConsoleKey.W) && b)
             {
                 playerCoor[1]--;
             }
-            if (input == 'l')
+            if ((move == ConsoleKey.S) && f)
+            {
+                playerCoor[1]++;
+            }
+            if ((move == ConsoleKey.A) && l)
             {
                 playerCoor[2]--;
             }
-            if (input == 'r')
+            if ((move == ConsoleKey.D) && r)
             {
                 playerCoor[2]++;
             }
-            if (input == 'a')
+            if (move == ConsoleKey.Spacebar)
             {
-                playerCoor[0]++;
-            }
-            if (input == 'd')
-            {
-                playerCoor[0]--;
+                if (d)
+                {
+                    playerCoor[0]--;  
+                }
+                if (u)
+                {
+                    playerCoor[0]++;
+                }
             }
         }
 
         bool HasWon()
         {
-            return ((playerCoor[0] == endCoor[0]) && (playerCoor[1] == endCoor[1]) && (playerCoor[2] == endCoor[2]));
+            return ((playerCoor[0] == endCoor[0][0]) && (playerCoor[1] >= endCoor[0][1]) && (playerCoor[1] <= endCoor[1][1]) && (playerCoor[2] >= endCoor[0][2]) && (playerCoor[2] <= endCoor[1][2]));
         }
 
         void WriteMaze()
         {
             int y0, x0;
-            y0 = ((playerCoor[1] / yMod) * yMod);
-            x0 = ((playerCoor[2] / xMod) * xMod);
-
-            for (int _y = (4 * y0); (_y < ((4 * y) + 1)) && (_y < ((4 * (y0 + yMod)) + 1)); _y++)
+            y0 = (playerCoor[1] - yMod);
+            x0 = (playerCoor[2] - xMod);
+            if (y0 < 0)
             {
-                for (int _x = (4 * x0); (_x < ((4 * x) + 1)) && (_x < ((4 * (x0 + xMod)) + 1)); _x++)
+                y0 = 0;
+            }
+            if (x0 < 0)
+            {
+                x0 = 0;
+            }
+
+            for (int _y = y0; (_y < maze[0].Length) && (_y <= (y0 + (2 * yMod))); _y++)
+            {
+                for (int _x = x0; (_x < maze[0][0].Length) && (_x < (x0 + (2 * xMod))); _x++)
                 {
-                    if ((_y == ((4 * playerCoor[1]) + 2)) && (_x == ((4 * playerCoor[2]) + 2)))
+                    if ((_y == playerCoor[1]) && (_x == playerCoor[2]))
                     {
                         Console.Write('X');
                     }

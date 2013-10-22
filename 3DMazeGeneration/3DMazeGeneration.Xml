@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>3DMazeGeneration</name>
+    </assembly>
+    <members>
+        <member name="T:_3DMazeGeneration.Maze">
+            <summary>
+            Class to generate a 3D Maze layout
+            </summary>
+        </member>
+        <member name="M:_3DMazeGeneration.Maze.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="_x"></param>
+            <param name="_y"></param>
+            <param name="_z"></param>
+        </member>
+        <member name="M:_3DMazeGeneration.Maze.CreateMaze">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:_3DMazeGeneration.Maze.GetFirstLayer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:_3DMazeGeneration.Maze.NextLayer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:_3DMazeGeneration.Maze.CompleteMaze">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:_3DMazeGeneration.Maze.GetLayout">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:_3DMazeGeneration.Maze.WriteLayout">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:_3DMazeGeneration.Maze.WriteLayerToCharArray">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:_3DMazeGeneration.Maze.CreateStartEnd">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:_3DMazeGeneration.Maze.Layer">
+            <summary>
+            A private class that uses cells to create each layer of the maze.
+            Changes are made to itself when a new layer is generated.
+            Data from a Layer object can be gotten in the form of a 2D boolean array.
+            </summary>
+        </member>
+        <member name="T:_3DMazeGeneration.Maze.Layer.Cell">
+            <summary>
+            A private cell class that holds 'cells' and defines if they have right (wallX), down (wallY), upper (upper), and lower (lower) barriers.
+            Cells also link to the cells their right (x) and down (y), as well as their set parent (setParent) and set child (setChild).
+            </summary>
+        </member>
+        <member name="M:_3DMazeGeneration.Maze.Layer.Cell.GetY">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
