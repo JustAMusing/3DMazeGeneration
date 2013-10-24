@@ -28,14 +28,13 @@ namespace _3DMazeGeneration
 
         static void Start()
         {
-            int x, y, z, cW, cH, wW, wH;
-            x = -1;
-            y = -1;
-            z = -1;
-            cW = -1;
-            cH = -1;
-            wW = -1;
-            wH = -1;
+            int x = -1;
+            int y = -1;
+            int z = -1;
+            int cW = -1;
+            int cH = -1;
+            int wW = -1;
+            int wH = -1;
 
             Console.WriteLine("Please input:");
             while (y <= 0)
@@ -155,9 +154,7 @@ namespace _3DMazeGeneration
 
             mazeRunner = new MazeRunner(maze);
 
-            Console.WriteLine();
-            Console.WriteLine("Press [enter] to begin.");
-            Console.ReadLine();
+            Console.WriteLine("\nPress [enter] to begin.\n");
 
             Console.Clear();
             mazeRunner.Run();
@@ -165,9 +162,8 @@ namespace _3DMazeGeneration
 
         static bool Reset()
         {
-            char input;
             Console.WriteLine("Would you like to play again (Y/N)?");
-            input = Console.ReadKey().KeyChar;
+            char input = Console.ReadKey().KeyChar;
             return (input == 'y');
         }
     }

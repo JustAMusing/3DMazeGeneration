@@ -10,6 +10,7 @@ namespace _3DMazeGeneration
     /// </summary>
     class Maze
     {
+        //Protected is the default access modifier, no need to right it
         internal readonly int x, y, z,
             cellWidth, cellHeight,
             wallWidth, wallHeight,
@@ -22,8 +23,14 @@ namespace _3DMazeGeneration
         static readonly Random rand = new Random();
         char[][][] layout;
 
-        protected static readonly Func<int, int> boundX0 = delegate(int _x) { return (3 * _x); }, boundX1 = delegate(int _x) { return ((3 * _x) + 1); }, boundX2 = delegate(int _x) { return ((3 * _x) + 2); },
-            boundY0 = delegate(int _y) { return (2 * _y); }, boundY1 = delegate(int _y) { return ((2 * _y) + 1); };
+        //Please explain these magic numbers
+        protected static readonly 
+            Func<int, int> 
+            boundX0 = delegate(int _x) { return     (3 * _x)     ; },
+            boundX1 = delegate(int _x) { return    ((3 * _x) + 1); },
+            boundX2 = delegate(int _x) { return    ((3 * _x) + 2); },
+            boundY0 = delegate(int _y) { return     (2 * _y)     ; },
+            boundY1 = delegate(int _y) { return    ((2 * _y) + 1); };
 
         /// <summary>
         /// 

@@ -143,35 +143,46 @@ namespace _3DMazeGeneration
             if ((move == ConsoleKey.W) && b)
             {
                 playerCoor[1]--;
+                Console.Clear();
             }
-            if ((move == ConsoleKey.S) && f)
+            else if ((move == ConsoleKey.S) && f)
             {
                 playerCoor[1]++;
+                Console.Clear();
             }
-            if ((move == ConsoleKey.A) && l)
+            else if ((move == ConsoleKey.A) && l)
             {
                 playerCoor[2]--;
+                Console.Clear();
             }
-            if ((move == ConsoleKey.D) && r)
+            else if ((move == ConsoleKey.D) && r)
             {
                 playerCoor[2]++;
+                Console.Clear();
             }
-            if (move == ConsoleKey.Spacebar)
+            else if (move == ConsoleKey.Spacebar)
             {
                 if (d)
                 {
-                    playerCoor[0]--;  
+                    playerCoor[0]--;
+                    Console.Clear();
                 }
                 if (u)
                 {
                     playerCoor[0]++;
+                    Console.Clear();
                 }
+
             }
         }
 
         bool HasWon()
         {
-            return ((playerCoor[0] == endCoor[0][0]) && (playerCoor[1] >= endCoor[0][1]) && (playerCoor[1] <= endCoor[1][1]) && (playerCoor[2] >= endCoor[0][2]) && (playerCoor[2] <= endCoor[1][2]));
+            return ((playerCoor[0] == endCoor[0][0]) && 
+                    (playerCoor[1] >= endCoor[0][1]) && 
+                    (playerCoor[1] <= endCoor[1][1]) && 
+                    (playerCoor[2] >= endCoor[0][2]) && 
+                    (playerCoor[2] <= endCoor[1][2]));
         }
 
         void WriteMaze()
